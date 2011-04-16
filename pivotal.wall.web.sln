@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.web", "pivotal.wall.web\pivotal.wall.web.csproj", "{4D37AB41-BE37-43AE-AE9D-0517531FEBA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.web.test", "pivotal.wall.web.test\pivotal.wall.web.test.csproj", "{DFD68BE5-CD4C-4926-9FDD-4E5D78444189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.model", "pivotal.wall.model\pivotal.wall.model.csproj", "{882EB3AB-CA99-4DF5-910C-10188C9B55A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{4D37AB41-BE37-43AE-AE9D-0517531FEBA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D37AB41-BE37-43AE-AE9D-0517531FEBA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D37AB41-BE37-43AE-AE9D-0517531FEBA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFD68BE5-CD4C-4926-9FDD-4E5D78444189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFD68BE5-CD4C-4926-9FDD-4E5D78444189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFD68BE5-CD4C-4926-9FDD-4E5D78444189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFD68BE5-CD4C-4926-9FDD-4E5D78444189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
