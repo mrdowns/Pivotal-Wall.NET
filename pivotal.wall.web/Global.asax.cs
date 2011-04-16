@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Mvc;
 
 namespace pivotal.wall.web
 {
@@ -35,6 +37,8 @@ namespace pivotal.wall.web
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+            
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(AutofacHelper.GetContainer()));
         }
     }
 }

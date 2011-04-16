@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace pivotal.wall.model
+﻿namespace pivotal.wall.model
 {
     public class PivotalService
     {
         public virtual PivotalProject GetProject(int id)
         {
-            throw new NotImplementedException();
+            return new PivotalProject{Name="nothing"};
         }
     }
 }
