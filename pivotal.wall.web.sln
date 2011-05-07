@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.web.test", "pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.model", "pivotal.wall.model\pivotal.wall.model.csproj", "{882EB3AB-CA99-4DF5-910C-10188C9B55A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.model.test", "pivotal.wall.model.test\pivotal.wall.model.test.csproj", "{45C382F9-AFC8-418B-9481-B4088B99F2A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pivotal.wall.repositories", "pivotal.wall.repositories\pivotal.wall.repositories.csproj", "{E194534F-34A8-4C67-8F8B-1DADD218CE45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{882EB3AB-CA99-4DF5-910C-10188C9B55A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45C382F9-AFC8-418B-9481-B4088B99F2A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45C382F9-AFC8-418B-9481-B4088B99F2A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45C382F9-AFC8-418B-9481-B4088B99F2A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45C382F9-AFC8-418B-9481-B4088B99F2A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E194534F-34A8-4C67-8F8B-1DADD218CE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E194534F-34A8-4C67-8F8B-1DADD218CE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E194534F-34A8-4C67-8F8B-1DADD218CE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E194534F-34A8-4C67-8F8B-1DADD218CE45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

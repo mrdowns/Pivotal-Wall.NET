@@ -2,9 +2,16 @@
 {
     public class PivotalService
     {
+        private readonly IProjectRepository _projectRepository;
+
+        public PivotalService(IProjectRepository projectRepository)
+        {
+            _projectRepository = projectRepository;
+        }
+
         public virtual PivotalProject GetProject(int id)
         {
-            return new PivotalProject{Name="nothing"};
+            return _projectRepository.GetProject(id);
         }
     }
 }

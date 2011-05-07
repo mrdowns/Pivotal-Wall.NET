@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +42,9 @@
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc3.2.4.5.724\lib\NET40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PivotalTracker.FluentAPI">
+      <HintPath>..\packages\PivotalTracker.FluentAPI\lib\PivotalTracker.FluentAPI.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -117,6 +121,10 @@
     <ProjectReference Include="..\pivotal.wall.model\pivotal.wall.model.csproj">
       <Project>{882EB3AB-CA99-4DF5-910C-10188C9B55A2}</Project>
       <Name>pivotal.wall.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pivotal.wall.repositories\pivotal.wall.repositories.csproj">
+      <Project>{E194534F-34A8-4C67-8F8B-1DADD218CE45}</Project>
+      <Name>pivotal.wall.repositories</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
