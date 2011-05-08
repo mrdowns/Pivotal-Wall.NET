@@ -9,7 +9,7 @@ using Should;
 namespace pivotal.wall.model.test
 {
     [TestFixture]
-    public class PivotalServiceTest_when_getting_a_project : Spec
+    public class PivotalServiceSpec_when_getting_a_project : Spec
     {
         private PivotalService _service;
         private Project _result;

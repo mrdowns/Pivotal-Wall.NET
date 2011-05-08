@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
 
 namespace pivotal.wall.test.util
 {
@@ -9,6 +10,8 @@ namespace pivotal.wall.test.util
         public void SetUp()
         {
             Fixture = new Fixture().Customize(new MultipleCustomization());
+            Fixture.Customizations.Add(new StableFiniteSequenceRelay());
+
             Given();
             When();
         }

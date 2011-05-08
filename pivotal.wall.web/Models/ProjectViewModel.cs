@@ -13,5 +13,7 @@ namespace pivotal.wall.web.Models
     public class StoryViewModel
     {
         public string Title { get; set; }
+
+        public string Points { get; set; }
     }
 }
