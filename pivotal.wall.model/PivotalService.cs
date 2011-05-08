@@ -1,4 +1,6 @@
-﻿namespace pivotal.wall.model
+﻿using System.Collections.Generic;
+
+namespace pivotal.wall.model
 {
     public class PivotalService
     {
@@ -9,9 +11,15 @@
             _projectRepository = projectRepository;
         }
 
-        public virtual PivotalProject GetProject(int id)
+        public virtual Project GetProject(int id)
         {
-            return _projectRepository.GetProject(id);
+            Project project = _projectRepository.GetProject(id);
+
+            IEnumerable<Story> stories = _projectRepository.GetStoriesForProject(id);
+
+            project.Stories = stories;
+            
+            return project;
         }
     }
 }

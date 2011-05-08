@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProjectRepository.cs" />
-    <Compile Include="PivotalProject.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="PivotalService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

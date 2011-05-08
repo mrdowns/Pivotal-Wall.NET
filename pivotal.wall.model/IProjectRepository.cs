@@ -1,7 +1,10 @@
-﻿namespace pivotal.wall.model
+﻿using System.Collections.Generic;
+
+namespace pivotal.wall.model
 {
     public interface IProjectRepository
     {
-        PivotalProject GetProject(int id);
+        Project GetProject(int id);
+        IEnumerable<Story> GetStoriesForProject(int projectId);
     }
 }

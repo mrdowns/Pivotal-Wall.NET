@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using AutoMapper;
 using pivotal.wall.model;
 using pivotal.wall.web.Models;
 
@@ -10,14 +11,17 @@ namespace pivotal.wall.web.Controllers
 
         public ProjectController(PivotalService service)
         {
+            Mapper.CreateMap<Project, ProjectViewModel>();
+            Mapper.CreateMap<Story, StoryViewModel>();
+
             _service = service;
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult View(int id)
         {
             var project = _service.GetProject(id);
 
-            return View(new ProjectViewModel { Name = project.Name });
+            return View(Mapper.Map<Project, ProjectViewModel>(project));
         }
     }
 }

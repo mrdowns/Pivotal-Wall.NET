@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.Reflection;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -13,11 +14,17 @@ namespace pivotal.wall.web
         public static IContainer GetContainer()
         {
             var builder = new ContainerBuilder();
+
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
             builder.RegisterType<PivotalService>();
 
-            builder.Register(c => new PivotalProjectRepository(new Token("3bbf29f25ccdab6a58a544df12d1d830")));
+            var apiKey = ConfigurationManager.AppSettings["PivotalApiKey"];
+
+            var token = new Token(apiKey);
+
+            builder.Register(c => new PivotalProjectRepository(token));
+            builder.Register(c => new PivotalStoryRepository(token));
 
             return builder.Build();
         }

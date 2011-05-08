@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 
-namespace pivotal.wall.model.test
+namespace pivotal.wall.test.util
 {
     public abstract class Spec
     {

@@ -3,24 +3,29 @@ using FakeItEasy;
 using NUnit.Framework;
 using MvcContrib.TestHelper;
 using pivotal.wall.model;
+using pivotal.wall.test.util;
 using pivotal.wall.web.Controllers;
 using pivotal.wall.web.Models;
 using Ploeh.AutoFixture;
+using System.Linq;
 
 namespace pivotal.wall.web.test.Controllers
 {
     [TestFixture]
-    public class ProjectControllerSpec_when_getting_edit : Spec
+    public class ProjectControllerSpec_when_getting_view : Spec
     {
         private ProjectController _controller;
         private ActionResult _result;
-        private PivotalProject _project;
+        private Project _project;
+        private ProjectViewModel _model;
 
         public override void Given()
         {
             var pivotalService = A.Fake<PivotalService>();
             
-            _project = Fixture.CreateAnonymous<PivotalProject>();
+            _project = Fixture.Build<Project>()
+                .With(p => p.Stories, Fixture.CreateMany<Story>(3))
+                .CreateAnonymous();
 
             A.CallTo(() => pivotalService.GetProject(123)).Returns(_project);
 
@@ -29,7 +34,7 @@ namespace pivotal.wall.web.test.Controllers
 
         public override void When()
         {
-            _result = _controller.Edit(123);
+            _result = _controller.View(123);
         }
 
         [Test]
@@ -47,9 +52,17 @@ namespace pivotal.wall.web.test.Controllers
         [Test]
         public void it_contains_the_data_from_the_project_model()
         {
-            var model = _result.AssertViewRendered().WithViewData<ProjectViewModel>();
+            _model = _result.AssertViewRendered().WithViewData<ProjectViewModel>();
 
-            model.Name.ShouldBe(_project.Name);
+            _model.Name.ShouldBe(_project.Name);
+        }
+
+        [Test]
+        public void it_contains_unstarted_stories_from_the_project()
+        {
+            _model = _result.AssertViewRendered().WithViewData<ProjectViewModel>();
+
+            _model.Stories.Count().ShouldBe(3);
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model pivotal.wall.web.Models.ProjectViewModel
+
+@{
+    ViewBag.Title = @Model.Name;
+}
+
+<h1>Project @Model.Name</h1>
+
+<ul>
+@foreach (var item in @Model.Stories)
+{
+    <li>@item.Title</li>
+}
+</ul>
+

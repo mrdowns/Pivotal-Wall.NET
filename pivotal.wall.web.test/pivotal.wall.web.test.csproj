@@ -38,22 +38,27 @@
     <Reference Include="FakeItEasy, Version=1.7.4117.2, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
       <HintPath>..\packages\FakeItEasy.1.7.4117.2\lib\NET40\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="MvcContrib.TestHelper">
-      <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.64.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    <Reference Include="MvcContrib.TestHelper, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.68.0\lib\MvcContrib.TestHelper.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.mocks">
+    <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture">
-      <HintPath>..\packages\AutoFixture.2.0\lib\Ploeh.AutoFixture.dll</HintPath>
+    <Reference Include="Ploeh.AutoFixture, Version=2.1.0.1, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.2.1\lib\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.SemanticComparison">
-      <HintPath>..\packages\AutoFixture.2.0\lib\Ploeh.SemanticComparison.dll</HintPath>
+    <Reference Include="Ploeh.SemanticComparison, Version=2.1.0.1, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.2.1\lib\Ploeh.SemanticComparison.dll</HintPath>
     </Reference>
-    <Reference Include="pnunit.framework">
+    <Reference Include="pnunit.framework, Version=1.0.4000.25744, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
@@ -74,7 +79,6 @@
   <ItemGroup>
     <Compile Include="Controllers\ProjectControllerSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spec.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -83,6 +87,10 @@
     <ProjectReference Include="..\pivotal.wall.model\pivotal.wall.model.csproj">
       <Project>{882EB3AB-CA99-4DF5-910C-10188C9B55A2}</Project>
       <Name>pivotal.wall.model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pivotal.wall.test.util\pivotal.wall.test.util.csproj">
+      <Project>{94592D5C-F2CA-43A5-8722-1BD0EEF51C82}</Project>
+      <Name>pivotal.wall.test.util</Name>
     </ProjectReference>
     <ProjectReference Include="..\pivotal.wall.web\pivotal.wall.web.csproj">
       <Project>{4D37AB41-BE37-43AE-AE9D-0517531FEBA9}</Project>
