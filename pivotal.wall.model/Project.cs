@@ -13,5 +13,7 @@ namespace pivotal.wall.model
     public class Story
     {
         public virtual string Title { get; set; }
+
+        public virtual int Points { get; set; }
     }
 }

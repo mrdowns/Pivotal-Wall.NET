@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using pivotal.wall.model;
-using PivotalTracker.FluentAPI.Domain;
 using PivotalTracker.FluentAPI.Repository;
 using Project = pivotal.wall.model.Project;
 using Story = pivotal.wall.model.Story;
+using PivotalProject = PivotalTracker.FluentAPI.Domain.Project;
+using PivotalStory = PivotalTracker.FluentAPI.Domain.Story;
 
 namespace pivotal.wall.repositories
 {
@@ -22,9 +21,10 @@ namespace pivotal.wall.repositories
             PivotalProjectRepository pivotalProjectRepository,
             PivotalStoryRepository pivotalStoryRepository)
         {
-            Mapper.CreateMap<PivotalTracker.FluentAPI.Domain.Project, Project>();
-            Mapper.CreateMap<PivotalTracker.FluentAPI.Domain.Story, Story>()
-                .ForMember(s => s.Title, s => s.MapFrom(st => st.Name));
+            Mapper.CreateMap<PivotalProject, Project>();
+            Mapper.CreateMap<PivotalStory, Story>()
+                .ForMember(s => s.Title, s => s.MapFrom(st => st.Name))
+                .ForMember(s => s.Points, s => s.MapFrom(st => st.Estimate));
 
             _pivotalProjectRepository = pivotalProjectRepository;
             _pivotalStoryRepository = pivotalStoryRepository;
@@ -34,14 +34,14 @@ namespace pivotal.wall.repositories
         {
             var project = _pivotalProjectRepository.GetProject(id);
 
-            return Mapper.Map<PivotalTracker.FluentAPI.Domain.Project, Project>(project);
+            return Mapper.Map<PivotalProject, Project>(project);
         }
 
         public IEnumerable<Story> GetStoriesForProject(int projectId)
         {
             var stories = _pivotalStoryRepository.GetStories(projectId);
             
-            return Mapper.Map<IEnumerable<PivotalTracker.FluentAPI.Domain.Story>, IEnumerable<Story>>(stories);
+            return Mapper.Map<IEnumerable<PivotalStory>, IEnumerable<Story>>(stories);
         }
     }
 }
