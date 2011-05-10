@@ -6,6 +6,7 @@ using MvcContrib.TestHelper;
 using pivotal.wall.model;
 using pivotal.wall.test.util;
 using pivotal.wall.web.Controllers;
+using pivotal.wall.web.Helpers;
 using pivotal.wall.web.Models;
 using Ploeh.AutoFixture;
 using System.Linq;
@@ -14,23 +15,89 @@ using Should;
 namespace pivotal.wall.web.test.Controllers
 {
     [TestFixture]
+    public class ProjectControllerSpec_when_getting_view_refactor : Spec
+    {
+        private PivotalService _pivotalService;
+        private PivotalColumnBuilder _columnBuilder;
+        private ProjectController _controller;
+        private ActionResult _result;
+        private List<Column> _columns;
+
+        public override void Given()
+        {
+            _pivotalService = A.Fake<PivotalService>();
+
+            var project = Fixture.Build<Project>()
+                .With(x => x.Name, "project name")
+                .CreateAnonymous();
+
+            A.CallTo(_pivotalService).WithReturnType<Project>().Returns(project);
+
+            _columnBuilder = A.Fake<PivotalColumnBuilder>();
+
+            _columns = new List<Column>{ new Column(), new Column(), new Column() };
+
+            A.CallTo(() => _columnBuilder.GetColumns()).Returns(_columns);
+
+            _controller = new ProjectController(_pivotalService, _columnBuilder);
+        }
+
+        public override void When()
+        {
+            _result = _controller.View(123);
+        }
+
+        [Test]
+        public void it_returns_the_default_view()
+        {
+            _result.AssertViewRendered().ForView(string.Empty);
+        }
+
+        [Test]
+        public void it_contains_the_project_model()
+        {
+            _result.AssertViewRendered().WithViewData<ProjectViewModel>();
+        }
+
+        [Test]
+        public void it_contains_the_data_from_the_project_model()
+        {
+            _result.AssertViewRendered().WithViewData<ProjectViewModel>().Name.ShouldEqual("project name");
+        }
+
+        [Test]
+        public void it_requests_the_project_by_id()
+        {
+            A.CallTo(() => _pivotalService.GetProject(123)).MustHaveHappened();
+        }
+
+        [Test]
+        public void it_has_three_columns()
+        {
+            _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns.Count().ShouldEqual(3);
+        }
+
+    }
+
+    [TestFixture]
     public class ProjectControllerSpec_when_getting_view : Spec
     {
         private ProjectController _controller;
         private ActionResult _result;
         private Project _project;
+        private PivotalService _pivotalService;
 
         public override void Given()
         {
-            var pivotalService = A.Fake<PivotalService>();
-            
+            _pivotalService = A.Fake<PivotalService>();
+
             _project = Fixture.Build<Project>()
                 .With(p => p.Stories, Fixture.CreateMany<Story>(3))
                 .CreateAnonymous();
 
-            A.CallTo(() => pivotalService.GetProject(123)).Returns(_project);
+            A.CallTo(() => _pivotalService.GetProject(123)).Returns(_project);
 
-            _controller = new ProjectController(pivotalService);
+            _controller = new ProjectController(_pivotalService, null);
         }
 
         public override void When()
@@ -59,6 +126,26 @@ namespace pivotal.wall.web.test.Controllers
         }
 
         [Test]
+        public void it_contains_columns_per_filter()
+        {
+            var model = GetAssertViewModel();
+
+            model.Columns.Count().ShouldBe(3);
+        }
+
+        [Test]
+        public void columns_are_in_order()
+        {
+            Assert.Fail("need to test");
+        }
+
+        [Test]
+        public void it_gets_the_project_from_the_service()
+        {
+            A.CallTo(() => _pivotalService.GetProject(123)).MustHaveHappened();
+        }
+
+        [Test]
         public void it_contains_stories_from_the_project()
         {
             var model = GetAssertViewModel();
@@ -80,6 +167,14 @@ namespace pivotal.wall.web.test.Controllers
             var model = GetAssertViewModel();
 
             ShouldContainAll(_project.Stories.Select(s => s.Points.ToString()), model.Stories.Select(s => s.Points));
+        }
+
+        [Test]
+        public void stories_contain_statuses()
+        {
+            var model = GetAssertViewModel();
+
+            ShouldContainAll(_project.Stories.Select(s => s.State.ToString()), model.Stories.Select(s => s.State));
         }
 
         private static void ShouldContainAll<T>(IEnumerable<T> source, IEnumerable<T> dest)

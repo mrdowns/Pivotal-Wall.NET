@@ -15,5 +15,18 @@ namespace pivotal.wall.model
         public virtual string Title { get; set; }
 
         public virtual int Points { get; set; }
+
+        public virtual State State { get; set; }
+    }
+
+    public enum State
+    {
+        Unscheduled,
+        Unstarted,
+        Started,
+        Delivered,
+        Finished,
+        Accepted,
+        Rejected
     }
 }

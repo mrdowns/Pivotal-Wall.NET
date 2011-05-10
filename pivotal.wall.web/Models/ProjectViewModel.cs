@@ -5,8 +5,20 @@ namespace pivotal.wall.web.Models
 {
     public class ProjectViewModel
     {
+        public ProjectViewModel()
+        {
+            Columns = new List<ColumnViewModel>();
+        }
+
         public string Name { get; set; }
 
+        public IEnumerable<StoryViewModel> Stories { get; set; }
+
+        public IList<ColumnViewModel> Columns { get; set; }
+    }
+
+    public class ColumnViewModel
+    {
         public IEnumerable<StoryViewModel> Stories { get; set; }
     }
 
@@ -15,5 +27,7 @@ namespace pivotal.wall.web.Models
         public string Title { get; set; }
 
         public string Points { get; set; }
+
+        public string State { get; set; }
     }
 }

@@ -6,5 +6,6 @@ namespace pivotal.wall.model
     {
         Project GetProject(int id);
         IEnumerable<Story> GetStoriesForProject(int projectId);
+        IEnumerable<Story> GetStoriesByFilter(int projectId, string filter);
     }
 }

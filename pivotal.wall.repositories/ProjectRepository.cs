@@ -24,7 +24,8 @@ namespace pivotal.wall.repositories
             Mapper.CreateMap<PivotalProject, Project>();
             Mapper.CreateMap<PivotalStory, Story>()
                 .ForMember(s => s.Title, s => s.MapFrom(st => st.Name))
-                .ForMember(s => s.Points, s => s.MapFrom(st => st.Estimate));
+                .ForMember(s => s.Points, s => s.MapFrom(st => st.Estimate))
+                .ForMember(s => s.State, s => s.MapFrom(st => st.CurrentState));
 
             _pivotalProjectRepository = pivotalProjectRepository;
             _pivotalStoryRepository = pivotalStoryRepository;
@@ -41,6 +42,13 @@ namespace pivotal.wall.repositories
         {
             var stories = _pivotalStoryRepository.GetStories(projectId);
             
+            return Mapper.Map<IEnumerable<PivotalStory>, IEnumerable<Story>>(stories);
+        }
+
+        public IEnumerable<Story> GetStoriesByFilter(int projectId, string filter)
+        {
+            var stories = _pivotalStoryRepository.GetSomeStories(projectId, filter);
+
             return Mapper.Map<IEnumerable<PivotalStory>, IEnumerable<Story>>(stories);
         }
     }
