@@ -77,104 +77,28 @@ namespace pivotal.wall.web.test.Controllers
             _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns.Count().ShouldEqual(3);
         }
 
-    }
-
-    [TestFixture]
-    public class ProjectControllerSpec_when_getting_view : Spec
-    {
-        private ProjectController _controller;
-        private ActionResult _result;
-        private Project _project;
-        private PivotalService _pivotalService;
-
-        public override void Given()
-        {
-            _pivotalService = A.Fake<PivotalService>();
-
-            _project = Fixture.Build<Project>()
-                .With(p => p.Stories, Fixture.CreateMany<Story>(3))
-                .CreateAnonymous();
-
-            A.CallTo(() => _pivotalService.GetProject(123)).Returns(_project);
-
-            _controller = new ProjectController(_pivotalService, null);
-        }
-
-        public override void When()
-        {
-            _result = _controller.View(123);
-        }
-
         [Test]
-        public void it_returns_the_default_view()
-        {
-            _result.AssertViewRendered().ForView(string.Empty);
-        }
-
-        [Test]
-        public void it_contains_the_project_model()
-        {
-            GetAssertViewModel();
-        }
-
-        [Test]
-        public void it_contains_the_data_from_the_project_model()
-        {
-            var model = GetAssertViewModel();
-
-            model.Name.ShouldBe(_project.Name);
-        }
-
-        [Test]
-        public void it_contains_columns_per_filter()
-        {
-            var model = GetAssertViewModel();
-
-            model.Columns.Count().ShouldBe(3);
-        }
-
-        [Test]
-        public void columns_are_in_order()
+        public void the_columns_match_the_builder()
         {
             Assert.Fail("need to test");
         }
 
         [Test]
-        public void it_gets_the_project_from_the_service()
+        public void the_columns_are_in_order()
         {
-            A.CallTo(() => _pivotalService.GetProject(123)).MustHaveHappened();
+            Assert.Fail("need to test");
         }
 
         [Test]
-        public void it_contains_stories_from_the_project()
+        public void the_columns_contain_matching_stories()
         {
-            var model = GetAssertViewModel();
-
-            model.Stories.Count().ShouldBe(3);
+            Assert.Fail("need to test");
         }
 
         [Test]
-        public void stories_contain_title()
+        public void the_stories_match_the_repository()
         {
-            var model = GetAssertViewModel();
-
-            ShouldContainAll(_project.Stories.Select(s => s.Title), model.Stories.Select(s => s.Title));
-        }
-
-        [Test]
-        public void stories_contain_points()
-        {
-            var model = GetAssertViewModel();
-
-            ShouldContainAll(_project.Stories.Select(s => s.Points.ToString()), model.Stories.Select(s => s.Points));
-        }
-
-        [Test]
-        public void stories_contain_statuses()
-        {
-            var model = GetAssertViewModel();
-
-            ShouldContainAll(_project.Stories.Select(s => s.State.ToString()), model.Stories.Select(s => s.State));
+            Assert.Fail("need to test");
         }
 
         private static void ShouldContainAll<T>(IEnumerable<T> source, IEnumerable<T> dest)
@@ -185,10 +109,6 @@ namespace pivotal.wall.web.test.Controllers
                 return true;
             });
         }
-
-        private ProjectViewModel GetAssertViewModel()
-        {
-            return _result.AssertViewRendered().WithViewData<ProjectViewModel>();
-        }
     }
+
 }
