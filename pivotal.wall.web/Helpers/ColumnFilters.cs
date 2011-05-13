@@ -8,39 +8,37 @@ namespace pivotal.wall.web.Helpers
 {
     public class PivotalColumnBuilder
     {
+        private readonly string _columnParameters;
+
         public PivotalColumnBuilder(string columnParameters)
         {
-            
+            _columnParameters = columnParameters;
         }
 
         public virtual IList<Column> GetColumns()
         {
-            return new List<Column>();
-        }
-    }
+            var columns = new List<Column>();
 
-    public class ColumnFilters : IEnumerable<Column>
-    {
-        protected ColumnFilters()
-        {
-            
-        }
+            var terms = _columnParameters.Split(new[]{","}, StringSplitOptions.RemoveEmptyEntries);
 
-        public static ColumnFilters FromConfigString(string list)
-        {
-            return new ColumnFilters();
-        }
+            foreach (var term in terms)
+            {
+                var spec = term.Split(new[] {"="}, StringSplitOptions.RemoveEmptyEntries);
+                var type = spec[0].Trim();
+                var value = spec[1].Trim();
 
-        public string FilterString { get; set; }
+                var column = new Column();
 
-        public IEnumerator<Column> GetEnumerator()
-        {
-            yield return new Column();
-        }
+                if (type.Equals("label"))
+                    column.Label = value;
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+                if (type.Equals("state"))
+                    column.State = value;
+                
+                columns.Add(column);
+            }
+
+            return columns;
         }
     }
 

@@ -15,7 +15,7 @@ using Should;
 namespace pivotal.wall.web.test.Controllers
 {
     [TestFixture]
-    public class ProjectControllerSpec_when_getting_view_refactor : Spec
+    public class ProjectControllerSpec_when_getting_view : Spec
     {
         private PivotalService _pivotalService;
         private PivotalColumnBuilder _columnBuilder;
