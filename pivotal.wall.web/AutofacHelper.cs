@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using pivotal.wall.model;
 using pivotal.wall.repositories;
+using pivotal.wall.web.Helpers;
 using PivotalTracker.FluentAPI.Domain;
 using PivotalTracker.FluentAPI.Repository;
 
@@ -16,6 +17,11 @@ namespace pivotal.wall.web
             var builder = new ContainerBuilder();
 
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
+
+            var columns = ConfigurationManager.AppSettings["PivotalColumnList"];
+
+            builder.Register(b => new PivotalColumnBuilder(columns));
+
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
             builder.RegisterType<PivotalService>();
 

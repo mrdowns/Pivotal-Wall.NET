@@ -7,9 +7,17 @@
 <h1>Project @Model.Name</h1>
 
 <ul>
-@foreach (var item in @Model.Stories)
+@foreach (var column in @Model.Columns)
 {
-    <li>@item.Title (@item.Points)</li>
+    <li>
+        <h2>@column.Title</h2>
+        <ul>
+        @foreach (var story in @column.Stories)
+        {
+            <li>@story.Title (@story.Points)</li>
+        }
+        </ul>
+    </li>
 }
 </ul>
 
