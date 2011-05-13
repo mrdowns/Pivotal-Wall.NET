@@ -21,23 +21,38 @@ namespace pivotal.wall.web.test.Controllers
         private PivotalColumnBuilder _columnBuilder;
         private ProjectController _controller;
         private ActionResult _result;
-        private List<Column> _columns;
+        private IDictionary<string, Story> _stories;
 
         public override void Given()
         {
-            _pivotalService = A.Fake<PivotalService>();
+            _stories = new Dictionary<string, Story>
+            {
+                {"pip", new Story{Points = 4, State = State.Rejected, Title = "pip the troll"}},
+                {"vic", new Story{Points = 2, State = State.Accepted, Title = "victor von doom"}},
+                {"adam", new Story{Points = 2, State = State.Finished, Title = "adam warlock"}},
+                {"gamora", new Story{Points = 2, State = State.Finished, Title = "gamora"}},
+                {"thanos", new Story{Points = 5, State = State.Started, Title = "thanos of titan", Labels = new List<string>{"this is a label"}}}
+            };
 
             var project = Fixture.Build<Project>()
                 .With(x => x.Name, "project name")
+                .With(x => x.Stories, _stories.Select(s => s.Value))
                 .CreateAnonymous();
+
+            _pivotalService = A.Fake<PivotalService>();
 
             A.CallTo(_pivotalService).WithReturnType<Project>().Returns(project);
 
+            var columns = new List<Column>
+            {
+                new Column{ Label = "this is a label" }, 
+                new Column{ State = State.Rejected.ToString() }, 
+                new Column{ State = State.Finished.ToString() }
+            };
+
             _columnBuilder = A.Fake<PivotalColumnBuilder>();
 
-            _columns = new List<Column>{ new Column(), new Column(), new Column() };
-
-            A.CallTo(() => _columnBuilder.GetColumns()).Returns(_columns);
+            A.CallTo(() => _columnBuilder.GetColumns()).Returns(columns);
 
             _controller = new ProjectController(_pivotalService, _columnBuilder);
         }
@@ -78,36 +93,43 @@ namespace pivotal.wall.web.test.Controllers
         }
 
         [Test]
-        public void the_columns_match_the_builder()
+        public void the_columns_set_titles_and_match_the_order()
         {
-            Assert.Fail("need to test");
-        }
+            var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
 
-        [Test]
-        public void the_columns_are_in_order()
-        {
-            Assert.Fail("need to test");
+            columns.ElementAt(0).Title.ShouldEqual("this is a label");
+            columns.ElementAt(1).Title.ShouldEqual("Rejected");
+            columns.ElementAt(2).Title.ShouldEqual("Finished");
         }
 
         [Test]
         public void the_columns_contain_matching_stories()
         {
-            Assert.Fail("need to test");
+            StoriesAtColumn(0).Count().ShouldEqual(1);
+            StoriesAtColumn(0).First().ShouldMatch(_stories["thanos"]);
+
+            StoriesAtColumn(1).Count().ShouldEqual(1);
+            StoriesAtColumn(1).First().ShouldMatch(_stories["pip"]);
+
+            StoriesAtColumn(2).Count().ShouldEqual(2);
+            StoriesAtColumn(2).ElementAt(0).ShouldMatch(_stories["adam"]);
+            StoriesAtColumn(2).ElementAt(1).ShouldMatch(_stories["gamora"]);
         }
 
-        [Test]
-        public void the_stories_match_the_repository()
+        private IEnumerable<StoryViewModel> StoriesAtColumn(int index)
         {
-            Assert.Fail("need to test");
+            var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
+            return columns.ElementAt(index).Stories;
         }
+    }
 
-        private static void ShouldContainAll<T>(IEnumerable<T> source, IEnumerable<T> dest)
+    public static class StoryViewModelExtensions
+    {
+        public static void ShouldMatch(this StoryViewModel vm, Story s)
         {
-            source.All(s =>
-            {
-                dest.ShouldContain(s);
-                return true;
-            });
+            vm.Title.ShouldEqual(s.Title);
+            vm.State.ShouldEqual(s.State.ToString());
+            vm.Points.ShouldEqual(s.Points.ToString());
         }
     }
 

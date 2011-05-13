@@ -1,8 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using AutoMapper;
 using pivotal.wall.model;
 using pivotal.wall.web.Helpers;
 using pivotal.wall.web.Models;
+using System.Linq;
 
 namespace pivotal.wall.web.Controllers
 {
@@ -24,15 +26,10 @@ namespace pivotal.wall.web.Controllers
         {
             var project = _service.GetProject(id);
 
-            var projectViewModel = Mapper.Map<Project, ProjectViewModel>(project);
-
             var columns = _columnBuilder.GetColumns();
 
-            foreach (var column in columns)
-            {
-                projectViewModel.Columns.Add(new ColumnViewModel());
-            }
-
+            var projectViewModel = new ProjectViewModel(project, columns);
+            
             return View(projectViewModel);
         }
     }

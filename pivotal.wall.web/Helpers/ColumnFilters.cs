@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using pivotal.wall.model;
 
 namespace pivotal.wall.web.Helpers
 {
@@ -45,6 +46,16 @@ namespace pivotal.wall.web.Helpers
 
     public class Column
     {
-        
+        public string Label { get; set; }
+
+        public string State { get; set; }
+
+        public IEnumerable<Story> GetStoriesFor(Project project)
+        {
+            var c = this;
+            return project.Stories.Where(
+                s => s.State.ToString() == c.State 
+                || (s.Labels != null && s.Labels.Any(l => l == c.Label)));
+        }
     }
 }

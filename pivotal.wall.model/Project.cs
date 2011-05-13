@@ -17,6 +17,8 @@ namespace pivotal.wall.model
         public virtual int Points { get; set; }
 
         public virtual State State { get; set; }
+
+        public List<string> Labels { get; set; }
     }
 
     public enum State
