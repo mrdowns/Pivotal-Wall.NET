@@ -6,12 +6,12 @@
 
 <h1>Project @Model.Name</h1>
 
-<ul>
+<ul class="columns">
 @foreach (var column in @Model.Columns)
 {
     <li>
         <h2>@column.Title</h2>
-        <ul>
+        <ul class="stories">
         @foreach (var story in @column.Stories)
         {
             <li>@story.Title (@story.Points)</li>
