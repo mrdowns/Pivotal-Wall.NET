@@ -25,7 +25,8 @@ namespace pivotal.wall.repositories
             Mapper.CreateMap<PivotalStory, Story>()
                 .ForMember(s => s.Title, s => s.MapFrom(st => st.Name))
                 .ForMember(s => s.Points, s => s.MapFrom(st => st.Estimate))
-                .ForMember(s => s.State, s => s.MapFrom(st => st.CurrentState));
+                .ForMember(s => s.State, s => s.MapFrom(st => st.CurrentState))
+                .ForMember(s => s.Labels, s => s.MapFrom(st => st.Labels));
 
             _pivotalProjectRepository = pivotalProjectRepository;
             _pivotalStoryRepository = pivotalStoryRepository;
