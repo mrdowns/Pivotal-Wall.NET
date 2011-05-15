@@ -48,12 +48,17 @@ namespace pivotal.wall.web.Helpers
 
         public string State { get; set; }
 
-        public IEnumerable<Story> GetStoriesFor(Project project)
+        public IEnumerable<Story> FilterStories(IEnumerable<Story> stories)
         {
             var c = this;
-            return project.Stories.Where(
-                s => s.State.ToString() == c.State 
+            return stories.Where(
+                s => s.State.ToString() == c.State
                 || (s.Labels != null && s.Labels.Any(l => l == c.Label)));
+        }
+
+        public IEnumerable<Story> GetStoriesFor(Project project)
+        {
+            return FilterStories(project.Stories);
         }
     }
 }

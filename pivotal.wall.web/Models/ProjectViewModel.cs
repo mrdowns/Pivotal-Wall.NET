@@ -14,10 +14,14 @@ namespace pivotal.wall.web.Models
             Name = project.Name;
 
             Columns = new List<ColumnViewModel>();
-            foreach (var column in columns)
+            var stories = project.Stories;
+            foreach (var column in columns.Reverse())
             {
-                var stories = column.GetStoriesFor(project);
-                Columns.Add(new ColumnViewModel(column, stories));
+                var matchingStories = column.FilterStories(stories);
+
+                Columns.Insert(0, new ColumnViewModel(column, matchingStories));
+
+                stories = stories.Except(matchingStories);
             }
         }
 
