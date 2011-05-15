@@ -8,12 +8,27 @@ using pivotal.wall.test.util;
 using pivotal.wall.web.Controllers;
 using pivotal.wall.web.Helpers;
 using pivotal.wall.web.Models;
+using pivotal.wall.web.test.Fixtures;
 using Ploeh.AutoFixture;
 using System.Linq;
 using Should;
 
 namespace pivotal.wall.web.test.Controllers
 {
+    [TestFixture]
+    public class ProjectController_when_there_are_multiple_matches : Spec
+    {
+        public override void Given()
+        {
+            
+        }
+
+        public override void When()
+        {
+            
+        }
+    }
+
     [TestFixture]
     public class ProjectControllerSpec_when_getting_view : Spec
     {
@@ -27,11 +42,11 @@ namespace pivotal.wall.web.test.Controllers
         {
             _stories = new Dictionary<string, Story>
             {
-                {"pip", new Story{Points = 4, State = State.Rejected, Title = "pip the troll"}},
-                {"vic", new Story{Points = 2, State = State.Accepted, Title = "victor von doom"}},
-                {"adam", new Story{Points = 2, State = State.Finished, Title = "adam warlock"}},
-                {"gamora", new Story{Points = 2, State = State.Finished, Title = "gamora"}},
-                {"thanos", new Story{Points = 5, State = State.Started, Title = "thanos of titan", Labels = new List<string>{"this is a label"}}}
+                {"pip", NewStory.With.Points(2).State(State.Rejected).Title("pip the troll")},
+                {"vic", NewStory.With.Points(2).State(State.Accepted).Title("victor von doom")},
+                {"adam", NewStory.With.Points(2).State(State.Finished).Title("adam warlock")},
+                {"gamora", NewStory.With.Points(2).State(State.Finished).Title("gamora")},
+                {"thanos", NewStory.With.Points(5).State(State.Started).Title("thanos of titan").Labels("this is a label")}
             };
 
             var project = Fixture.Build<Project>()
