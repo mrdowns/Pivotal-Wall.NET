@@ -17,7 +17,7 @@ namespace pivotal.wall.web.test.Helpers
 
         public override void Given()
         {
-            _builder = new PivotalColumnBuilder("label=first label, state=Finished, state=Rejected, label=another label");
+            _builder = new PivotalColumnBuilder("label=first label,label=second label,state=Unstarted; state=Finished; state=Rejected; label=another label");
         }
 
         public override void When()
@@ -28,17 +28,20 @@ namespace pivotal.wall.web.test.Helpers
         [Test]
         public void should_return_columns_in_order()
         {
-            _columns.ElementAt(0).Label.ShouldEqual("first label");
-            _columns.ElementAt(0).State.ShouldBeNull();
+            _columns.ElementAt(0).Labels.ShouldContain("first label");
+            _columns.ElementAt(0).Labels.ShouldContain("second label");
+            _columns.ElementAt(0).States.ShouldContain(State.Unstarted.ToString());
+            //_columns.ElementAt(0).Label.ShouldEqual("first label");
+            //_columns.ElementAt(0).State.ShouldBeNull();
 
-            _columns.ElementAt(1).State.ShouldEqual(State.Finished.ToString());
-            _columns.ElementAt(1).Label.ShouldBeNull();
+            _columns.ElementAt(1).States.ShouldContain(State.Finished.ToString());
+            _columns.ElementAt(1).Labels.ShouldBeEmpty();
 
-            _columns.ElementAt(2).State.ShouldEqual(State.Rejected.ToString());
-            _columns.ElementAt(2).Label.ShouldBeNull();
+            _columns.ElementAt(2).States.ShouldContain(State.Rejected.ToString());
+            _columns.ElementAt(2).Labels.ShouldBeEmpty();
 
-            _columns.ElementAt(3).Label.ShouldEqual("another label");
-            _columns.ElementAt(3).State.ShouldBeNull();
+            _columns.ElementAt(3).Labels.ShouldContain("another label");
+            _columns.ElementAt(3).States.ShouldBeEmpty();
         }
     }
 }

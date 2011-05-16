@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixtures\NewColumn.cs" />
     <Compile Include="Fixtures\NewStory.cs" />
     <Compile Include="Controllers\ProjectControllerSpec.cs" />
     <Compile Include="Helpers\PivotalColumnBuilderSpec.cs" />

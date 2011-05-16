@@ -76,7 +76,8 @@
     </None>
     <Compile Include="AutofacHelper.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
-    <Compile Include="Helpers\ColumnFilters.cs" />
+    <Compile Include="Helpers\Column.cs" />
+    <Compile Include="Helpers\PivotalColumnBuilder.cs" />
     <Compile Include="Models\ProjectViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -16,6 +16,65 @@ using Should;
 namespace pivotal.wall.web.test.Controllers
 {
     [TestFixture]
+    public class ProjectController_when_there_are_multiterm_columns : ProjectControllerSpecBase
+    {
+        public override void Given()
+        {
+            ServiceReturnsProjectWithStories(new Dictionary<string, Story>
+            {
+                {"pip", NewStory.With.Points(2).State(State.Rejected).Title("pip the troll").Labels("this is a label")},
+                {"vic", NewStory.With.Points(2).State(State.Accepted).Title("victor von doom")},
+                {"adam", NewStory.With.Points(2).State(State.Finished).Title("adam warlock").Labels("no match", "this is a label")},
+                {"gamora", NewStory.With.Points(2).State(State.Finished).Title("gamora").Labels("a different label")},
+                {"thanos", NewStory.With.Points(5).State(State.Finished).Title("thanos of titan").Labels("this is a label")}
+            });
+
+            BuilderReturnsColumns(new List<Column>
+            {
+                NewColumn.With.States(State.Finished.ToString()),
+                NewColumn.With.Labels("this is a label").States(State.Accepted.ToString()),
+                NewColumn.With.States(State.Rejected.ToString(), State.Unstarted.ToString()),
+                NewColumn.With.Labels("there's nothing here", "aint no thang")
+            });
+
+            _controller = new ProjectController(_pivotalService, _columnBuilder);
+        }
+
+        public override void When()
+        {
+            _result = _controller.View(123);
+        }
+
+        [Test]
+        public void title_is_comma_separated_list_of_terms()
+        {
+            var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
+
+            columns.ElementAt(0).Title.ShouldEqual(State.Finished.ToString());
+            columns.ElementAt(1).Title.ShouldEqual("this is a label, " + State.Accepted.ToString());
+            columns.ElementAt(2).Title.ShouldEqual(State.Rejected.ToString() + ", " + State.Unstarted.ToString());
+            columns.ElementAt(3).Title.ShouldEqual("there's nothing here, aint no thang");
+        }
+
+        [Test]
+        public void stores_are_matched_from_any_term()
+        {
+            StoriesAtColumn(0).Count().ShouldEqual(1);
+            StoriesAtColumn(0).First().ShouldMatch(_stories["gamora"]);
+
+            StoriesAtColumn(1).Count().ShouldEqual(3);
+            StoriesAtColumn(1).ElementAt(0).ShouldMatch(_stories["vic"]);
+            StoriesAtColumn(1).ElementAt(1).ShouldMatch(_stories["adam"]);
+            StoriesAtColumn(1).ElementAt(2).ShouldMatch(_stories["thanos"]);
+
+            StoriesAtColumn(2).Count().ShouldEqual(1);
+            StoriesAtColumn(2).ElementAt(0).ShouldMatch(_stories["pip"]);
+
+            StoriesAtColumn(3).Count().ShouldEqual(0);
+        }
+    }
+
+    [TestFixture]
     public class ProjectController_when_there_are_multiple_matches : ProjectControllerSpecBase
     {
         public override void Given()
@@ -31,9 +90,9 @@ namespace pivotal.wall.web.test.Controllers
 
             BuilderReturnsColumns(new List<Column>
             {
-                new Column{ State = State.Finished.ToString() }, 
-                new Column{ Label = "this is a label" }, 
-                new Column{ State = State.Rejected.ToString() }
+                NewColumn.With.States(State.Finished.ToString()),
+                NewColumn.With.Labels("this is a label"),
+                NewColumn.With.States(State.Rejected.ToString())
             });
 
             _controller = new ProjectController(_pivotalService, _columnBuilder);
@@ -75,9 +134,9 @@ namespace pivotal.wall.web.test.Controllers
 
             BuilderReturnsColumns(new List<Column>
             {
-                new Column{ Label = "this is a label" }, 
-                new Column{ State = State.Rejected.ToString() }, 
-                new Column{ State = State.Finished.ToString() }
+                NewColumn.With.Labels("this is a label"),
+                NewColumn.With.States(State.Rejected.ToString()),
+                NewColumn.With.States(State.Finished.ToString())
             });
 
             _controller = new ProjectController(_pivotalService, _columnBuilder);
@@ -86,6 +145,30 @@ namespace pivotal.wall.web.test.Controllers
         public override void When()
         {
             _result = _controller.View(123);
+        }
+
+        [Test]
+        public void the_columns_set_titles_and_match_the_order()
+        {
+            var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
+
+            columns.ElementAt(0).Title.ShouldEqual("this is a label");
+            columns.ElementAt(1).Title.ShouldEqual("Rejected");
+            columns.ElementAt(2).Title.ShouldEqual("Finished");
+        }
+
+        [Test]
+        public void the_columns_contain_matching_stories()
+        {
+            StoriesAtColumn(0).Count().ShouldEqual(1);
+            StoriesAtColumn(0).First().ShouldMatch(_stories["thanos"]);
+
+            StoriesAtColumn(1).Count().ShouldEqual(1);
+            StoriesAtColumn(1).First().ShouldMatch(_stories["pip"]);
+
+            StoriesAtColumn(2).Count().ShouldEqual(2);
+            StoriesAtColumn(2).ElementAt(0).ShouldMatch(_stories["adam"]);
+            StoriesAtColumn(2).ElementAt(1).ShouldMatch(_stories["gamora"]);
         }
 
         [Test]
@@ -116,30 +199,6 @@ namespace pivotal.wall.web.test.Controllers
         public void it_has_three_columns()
         {
             _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns.Count().ShouldEqual(3);
-        }
-
-        [Test]
-        public void the_columns_set_titles_and_match_the_order()
-        {
-            var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
-
-            columns.ElementAt(0).Title.ShouldEqual("this is a label");
-            columns.ElementAt(1).Title.ShouldEqual("Rejected");
-            columns.ElementAt(2).Title.ShouldEqual("Finished");
-        }
-
-        [Test]
-        public void the_columns_contain_matching_stories()
-        {
-            StoriesAtColumn(0).Count().ShouldEqual(1);
-            StoriesAtColumn(0).First().ShouldMatch(_stories["thanos"]);
-
-            StoriesAtColumn(1).Count().ShouldEqual(1);
-            StoriesAtColumn(1).First().ShouldMatch(_stories["pip"]);
-
-            StoriesAtColumn(2).Count().ShouldEqual(2);
-            StoriesAtColumn(2).ElementAt(0).ShouldMatch(_stories["adam"]);
-            StoriesAtColumn(2).ElementAt(1).ShouldMatch(_stories["gamora"]);
         }
     }
 

@@ -36,7 +36,7 @@ namespace pivotal.wall.web.Models
     {
         public ColumnViewModel(Column column, IEnumerable<Story> stories)
         {
-            Title = column.State ?? column.Label;
+            Title = string.Join(", ", column.Labels.Select(s => s).Union(column.States.Select(s => s)));
             Stories = Mapper.Map<IEnumerable<Story>, IEnumerable<StoryViewModel>>(stories);
         }
 
