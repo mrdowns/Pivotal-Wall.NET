@@ -32,4 +32,25 @@ ul.stories > li
 	border: 1px solid #aaa;
 	margin: 10px 0;
 	padding: 10px;
+	width: 200px;
+}
+
+ul.stories > li > span.title
+{
+	font-weight: bold;
+	font-size: 1.2em;
+	display: block;
+	margin-bottom: 10px;
+	clear: both;
+}
+
+ul.stories > li > span.points
+{
+	float: left;
+}
+
+ul.stories > li > span.owner
+{
+	display: block;
+	text-align: right;
 }

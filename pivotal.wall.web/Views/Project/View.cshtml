@@ -14,7 +14,11 @@
         <ul class="stories">
         @foreach (var story in @column.Stories)
         {
-            <li>@story.Title (@story.Points) | @story.Owner</li>
+            <li>
+                <span class="title">@story.Title</span>
+                <span class="points">@story.Points pts</span>
+                <span class="owner">@story.Owner</span>
+            </li>
         }
         </ul>
     </li>
