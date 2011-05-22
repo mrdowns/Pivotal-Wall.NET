@@ -15,7 +15,7 @@ namespace pivotal.wall.model
         {
             Project project = _projectRepository.GetProject(id);
 
-            IEnumerable<Story> stories = _projectRepository.GetStoriesForProject(id);
+            IEnumerable<Story> stories = _projectRepository.GetStoriesByFilter(id, "type:Feature,Bug,Chore");
 
             project.Stories = stories;
             

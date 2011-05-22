@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using FakeItEasy;
 using NUnit.Framework;
@@ -14,17 +14,18 @@ namespace pivotal.wall.model.test
         private PivotalService _service;
         private Project _result;
         private Project _project;
+        private IProjectRepository _repository;
 
         public override void Given()
         {
-            var repository = A.Fake<IProjectRepository>();
+            _repository = A.Fake<IProjectRepository>();
 
             _project = Fixture.Build<Project>().With(p => p.Stories, Enumerable.Empty<Story>()).CreateAnonymous();
 
-            A.CallTo(() => repository.GetProject(123)).Returns(_project);
-            A.CallTo(() => repository.GetStoriesForProject(123)).Returns(Fixture.CreateMany<Story>(3));
+            A.CallTo(() => _repository.GetProject(123)).Returns(_project);
+            A.CallTo(_repository).WithReturnType<IEnumerable<Story>>().Returns(Fixture.CreateMany<Story>(3));
 
-            _service = new PivotalService(repository);
+            _service = new PivotalService(_repository);
         }
 
         public override void When()
@@ -42,6 +43,12 @@ namespace pivotal.wall.model.test
         public void returns_stories_in_project()
         {
             _result.Stories.Count().ShouldEqual(3);
+        }
+
+        [Test]
+        public void uses_a_story_type_filter()
+        {
+            A.CallTo(() => _repository.GetStoriesByFilter(123, "type:Feature,Bug,Chore")).MustHaveHappened();
         }
     }
 }

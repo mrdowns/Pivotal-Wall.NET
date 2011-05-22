@@ -16,7 +16,7 @@ namespace pivotal.wall.web.Controllers
         public ProjectController(PivotalService service, PivotalColumnBuilder columnBuilder)
         {
             Mapper.CreateMap<Project, ProjectViewModel>();
-            Mapper.CreateMap<Story, StoryViewModel>();
+            Mapper.CreateMap<Story, StoryViewModel>().ForMember(s => s.Owner, s => s.MapFrom(st => st.Owner ?? "Available"));
 
             _service = service;
             _columnBuilder = columnBuilder;

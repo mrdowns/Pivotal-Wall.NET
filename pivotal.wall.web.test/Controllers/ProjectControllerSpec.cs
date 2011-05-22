@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using FakeItEasy;
@@ -15,6 +16,36 @@ using Should;
 
 namespace pivotal.wall.web.test.Controllers
 {
+    [TestFixture]
+    public class ProjectController_when_theres_no_owner : ProjectControllerSpecBase
+    {
+        public override void Given()
+        {
+            ServiceReturnsProjectWithStories(new Dictionary<string, Story>
+            {
+                {"pip", NewStory.With.Points(2).State(State.Rejected).Title("the title").NoOwner()}
+            });
+
+            BuilderReturnsColumns(new List<Column>
+            {
+                NewColumn.With.States(State.Rejected.ToString())
+            });
+
+            _controller = new ProjectController(_pivotalService, _columnBuilder);
+        }
+
+        public override void When()
+        {
+            _result = _controller.View(123);
+        }
+
+        [Test]
+        public void owner_is_available()
+        {
+            StoriesAtColumn(0).First().Owner.ShouldEqual("Available");
+        }
+    }
+
     [TestFixture]
     public class ProjectController_when_there_are_multiterm_columns : ProjectControllerSpecBase
     {
@@ -51,8 +82,8 @@ namespace pivotal.wall.web.test.Controllers
             var columns = _result.AssertViewRendered().WithViewData<ProjectViewModel>().Columns;
 
             columns.ElementAt(0).Title.ShouldEqual(State.Finished.ToString());
-            columns.ElementAt(1).Title.ShouldEqual("this is a label, " + State.Accepted.ToString());
-            columns.ElementAt(2).Title.ShouldEqual(State.Rejected.ToString() + ", " + State.Unstarted.ToString());
+            columns.ElementAt(1).Title.ShouldEqual("this is a label, " + State.Accepted);
+            columns.ElementAt(2).Title.ShouldEqual(State.Rejected + ", " + State.Unstarted);
             columns.ElementAt(3).Title.ShouldEqual("there's nothing here, aint no thang");
         }
 
@@ -248,6 +279,7 @@ namespace pivotal.wall.web.test.Controllers
             vm.Title.ShouldEqual(s.Title);
             vm.State.ShouldEqual(s.State.ToString());
             vm.Points.ShouldEqual(s.Points.ToString());
+            vm.Owner.ShouldEqual(s.Owner);
         }
     }
 

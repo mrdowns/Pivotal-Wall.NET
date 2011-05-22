@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using pivotal.wall.web.Helpers;
+﻿using pivotal.wall.web.Helpers;
 
 namespace pivotal.wall.web.test.Fixtures
 {

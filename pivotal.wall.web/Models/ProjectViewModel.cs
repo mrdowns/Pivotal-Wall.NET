@@ -52,5 +52,7 @@ namespace pivotal.wall.web.Models
         public string Points { get; set; }
 
         public string State { get; set; }
+
+        public string Owner { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using pivotal.wall.model;
 
 namespace pivotal.wall.web.test.Fixtures
@@ -9,6 +10,7 @@ namespace pivotal.wall.web.test.Fixtures
         private State _state;
         private string _title;
         private string[] _labels;
+        private string _owner = Guid.NewGuid().ToString();
 
         protected NewStory(){}
 
@@ -38,6 +40,18 @@ namespace pivotal.wall.web.test.Fixtures
             return this;
         }
 
+        public NewStory Owner(string owner)
+        {
+            _owner = owner;
+            return this;
+        }
+
+        public NewStory NoOwner()
+        {
+            _owner = null;
+            return this;
+        }
+
         public static implicit operator Story(NewStory story)
         {
             return story.Create();
@@ -50,6 +64,7 @@ namespace pivotal.wall.web.test.Fixtures
                 Points = _points,
                 State = _state,
                 Title = _title,
+                Owner = _owner,
                 Labels = _labels == null ? null : new List<string>(_labels)
             };
             return story;
